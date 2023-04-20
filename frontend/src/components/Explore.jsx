@@ -55,12 +55,7 @@ function Explore() {
                     {" "}
                     {/* Utilise le label de l'option comme clé au lieu de l'index */}
                     <br />
-                    <a
-                      href={option.link}
-                      // target="_blank"
-                    >
-                      {option.label}
-                    </a>
+                    <a href={option.link}>{option.label}</a>
                   </div>
                 );
               })}
