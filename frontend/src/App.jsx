@@ -10,8 +10,6 @@ import "./sass/header.scss";
 import "./App.css";
 import "./sass/style.scss";
 
-// import SuperHeroes from "./assets/data/data"
-
 function App() {
   return (
     <div>
