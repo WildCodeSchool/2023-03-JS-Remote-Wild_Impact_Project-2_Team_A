@@ -1,5 +1,6 @@
 // US 1 import
-
+import Header from "./components/Header";
+import "./sass/header.scss";
 // US 2 Import
 
 // US 3 import
@@ -8,12 +9,13 @@
 
 import "./App.css";
 import "./sass/style.scss";
+
 // import SuperHeroes from "./assets/data/data"
 
 function App() {
   return (
     <div>
-      <header>{/** US 1 Page */}Logo + image + menu + about</header>
+      <Header />
       <main>
         <div className="carrousel">Carrousel</div>
         <div className="all-ctg">Catégories principales DC Comics & Marvel</div>
