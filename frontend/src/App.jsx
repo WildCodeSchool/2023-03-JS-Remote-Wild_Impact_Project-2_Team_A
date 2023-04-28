@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 // US 1 import
-
+import APropos from "./pages/APropos";
 // US 2 Import
 
 // US 3 import
@@ -28,6 +28,7 @@ function App() {
       {/** US 4 Page */}
       {/* Add your routes here  */}
       <Routes>
+        <Route path="/apropos" element={<APropos />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
       <Footer />
