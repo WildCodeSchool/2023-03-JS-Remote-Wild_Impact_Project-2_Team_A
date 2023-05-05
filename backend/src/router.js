@@ -22,6 +22,16 @@ router.get("/superheroes", (req, res) => {
     value.push(`${req.query.name}%`);
   }
 
+  if (req.query.gender) {
+    url += " WHERE gender = ?";
+    value.push(`${req.query.gender}`);
+  }
+
+  if (req.query.race) {
+    url += " WHERE race LIKE ?";
+    value.push(`${req.query.race}%`);
+  }
+
   connection
     .query(url, value)
     .then(([results]) => {
@@ -54,7 +64,7 @@ router.get("/categories/", (req, res) => {
   connection
     .query(`SELECT DISTINCT ${req.query.type} FROM superhero`)
     .then(([results]) => {
-      res.json(results);
+      res.json(results.map((result) => result[req.query.type]));
     })
     .catch((err) => {
       console.error(err);

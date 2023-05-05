@@ -1,29 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import CardHero from "../components/CardHero";
 import "../sass/Panier.scss";
-import SuperHeroes from "../assets/data/data";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
-function Panier() {
-  const [cardsData, setCardsData] = useState(SuperHeroes.slice(0, 3));
-  const [quantities, setQuantities] = useState([0, 0, 0]);
+function Panier({ basket, handleBasket }) {
+  const [cardsData, setCardsData] = useState([]);
 
-  const handleQuantityChange = (index, value) => {
-    const newQuantities = [...quantities];
-    newQuantities[index] = value;
-    setQuantities(newQuantities);
-  };
-
-  const handleDeleteCard = (index) => {
-    const newCardsData = [...cardsData];
-    const newQuantities = [...quantities];
-    newCardsData.splice(index, 1);
-    newQuantities.splice(index, 1);
-    setCardsData(newCardsData);
-    setQuantities(newQuantities);
-  };
+  useEffect(() => {
+    fetch(
+      `${import.meta.env.VITE_BACKEND_URL}/basket?list=${basket.map(
+        (el) => el.id
+      )}`
+    )
+      .then((res) => res.json())
+      .then((heroes) => setCardsData(heroes))
+      .catch((err) => console.error(err));
+  }, [basket]);
 
   const randomPrice = () => {
     return (Math.random() * (30 - 20) + 20).toFixed(2);
@@ -36,35 +30,40 @@ function Panier() {
         <h1 className="panier-title">Voici ton super PANIER pour gagner !</h1>
         <div className="content-container">
           <div className="cards-container">
-            {cardsData.map((superhero, index) => (
-              <div key={superhero.id} className="card-container">
-                <CardHero superhero={superhero} />
-                <div className="info-container">
-                  <div className="price">Prix : ${randomPrice()}</div>
-                  <div className="quantity-container">
-                    <span>Quantité :</span>
-                    <input
-                      type="number"
-                      min="0"
-                      value={quantities[index]}
-                      onChange={(e) =>
-                        handleQuantityChange(
-                          index,
-                          parseInt(e.target.value, 10)
-                        )
-                      }
-                    />
+            {cardsData.length > 0 &&
+              basket.map((superhero) => (
+                <div key={superhero.id} className="card-container">
+                  <CardHero
+                    superhero={cardsData.find((el) => el.id === superhero.id)}
+                  />
+                  <div className="info-container">
+                    <div className="price">Prix : ${randomPrice()}</div>
+                    <div className="quantity-container">
+                      <label>
+                        Quantité :
+                        <input
+                          type="number"
+                          min="0"
+                          value={superhero.value}
+                          onChange={(e) =>
+                            handleBasket(
+                              superhero,
+                              parseInt(e.target.value, 10)
+                            )
+                          }
+                        />
+                      </label>
+                    </div>
+                    <button
+                      type="button"
+                      className="delete-button"
+                      onClick={() => handleBasket(superhero, 0)}
+                    >
+                      Supprimer
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    className="delete-button"
-                    onClick={() => handleDeleteCard(index)}
-                  >
-                    Supprimer
-                  </button>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
           <div className="rectangles-container">
             <div className="summary-container">
@@ -79,27 +78,23 @@ function Panier() {
             </div>
             <div className="additional-rectangle">
               <p>TON CODE PROMO</p>
-              <input />
               <button type="button" className="validate-button">
                 Submit
               </button>
             </div>
             <div className="additional-rectangle">
               <p>TON CODE D'AFFILIATION</p>
-              <input />
               <button type="button" className="validate-button">
                 Submit
               </button>
             </div>
           </div>
         </div>
-        <Link to="/">
-          <button type="button" className="return-button">
-            Retour à mes achats
-          </button>
+        <Link to="/" className="return-button">
+          Home
         </Link>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }
