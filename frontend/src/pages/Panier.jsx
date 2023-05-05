@@ -65,10 +65,10 @@ function Panier({ basket, handleBasket }) {
                 </div>
               ))}
           </div>
-          <div className="rectangles-container">
-            <div className="summary-container">
-              <div className="summary-details">
-                <p>T'es super cartes 0€</p>
+          <div className="summary-container">
+            <div className="order-container">
+              <div className="order-details">
+                <p>Tes super cartes 0€</p>
                 <p>Ta super livraison 0€</p>
                 <p>Total 0€</p>
               </div>
@@ -76,14 +76,16 @@ function Panier({ basket, handleBasket }) {
                 VALIDER MA COMMANDE
               </button>
             </div>
-            <div className="additional-rectangle">
-              <p>TON CODE PROMO</p>
+            <div className="order-container">
+              <p className="order-details">TON CODE PROMO</p>
+              <input />
               <button type="button" className="validate-button">
                 Submit
               </button>
             </div>
-            <div className="additional-rectangle">
-              <p>TON CODE D'AFFILIATION</p>
+            <div className="order-container">
+              <p className="order-details">TON CODE D'AFFILIATION</p>
+              <input />
               <button type="button" className="validate-button">
                 Submit
               </button>
